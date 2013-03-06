@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Relatório de OS - <%= @issue.tracker %> #<%= @issue.id %> - <%= @issue.subject %></title>
+		<%= render('estilo') %>
+	</head>
+	<body>
+			<%= render('header') %>
+			<div class="issues">
+				<%= render(partial: 'issue', locals: {issue: @issue}) %>
+			</div>
+			
+			<%= render('assinatura') %>
+	</body>
+</html>

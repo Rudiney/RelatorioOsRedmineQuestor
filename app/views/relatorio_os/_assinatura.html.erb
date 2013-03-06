@@ -1,0 +1,17 @@
+<div id="assinaturas">
+	<hr />
+	<div>Declaro que a solicitação descrita foi completamente atendida e o sistema encontra-se em perfeito estado de funcionamento</div>
+	<div><b>Data:</b> <%= format_date(Date.today) %></div>
+	
+	<div class="assinatura">
+		<hr />
+		<div class="responsavel"><%= @issue.assigned_to %></div>
+		<div class="empresa">Questor Sistemas Ltda</div>
+	</div>
+	
+	<div class="assinatura">
+		<hr />
+		<div class="responsavel"> Assinatura do cliente </div>
+		<br>
+	</div>
+</div>

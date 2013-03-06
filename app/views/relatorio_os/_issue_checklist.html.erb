@@ -1,0 +1,11 @@
+<fieldset>
+	<legend>Checklist</legend>
+	<ul class='checklist'>
+		<% issue.checklist.order('position').each do |cl| %>
+		<li>
+			<%= check_box_tag(:checklist, 1, cl.is_done) %>
+			<%= cl.subject %>
+		</li>
+		<% end %>
+	</ul>
+</fieldset>

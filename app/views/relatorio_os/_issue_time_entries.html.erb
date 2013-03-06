@@ -1,0 +1,25 @@
+<fieldset id="tempo_gasto" class="">
+	<legend>Tempo Gasto</legend>
+	<table class='estilo'>
+		<thead>
+			<tr>
+				<td>Data</td>
+				<td>Usuário</td>
+				<td>Comentário</td>
+				<td>Tempo Gasto</td>
+			</tr>
+		</thead>
+		<% time_entries.each do |entry| -%>
+		<tr class="time-entry <%= cycle("odd", "even") %>">
+			<td class="spent_on"><%= format_date(entry.spent_on) %></td>
+			<td class="user"><%= link_to_user(entry.user) %></td>
+			<td class="comments"><%=h entry.comments %></td>
+			<td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+		</tr>
+		<% end -%>
+		<tr>
+			<td colspan='3' class='titulo'>Total</td>
+			<td class="hours"><%= html_hours("%.2f" % time_entries.sum(:hours)) %></td>
+		</tr>
+	</table>	
+</fieldset>
