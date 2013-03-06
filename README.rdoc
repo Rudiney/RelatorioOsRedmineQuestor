@@ -1,3 +1,3 @@
-= questor_relatorio_os
+= Questor Sistemas - Relatório de OS
 
-Description goes here
+Plugin para a impressão do relatório de OS do redmine utilizado pela Questor Sistemas(http://questor.com.br/) de Chapecó/SC
