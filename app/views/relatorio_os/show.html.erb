@@ -6,7 +6,7 @@
 	<body>
 			<%= render('header') %>
 			<div class="issues">
-				<%= render(partial: 'issue', locals: {issue: @issue}) %>
+				<%= render(:partial => 'issue', :locals => {:issue => @issue}) %>
 			</div>
 			
 			<%= render('assinatura') %>

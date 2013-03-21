@@ -36,6 +36,6 @@ class RelatorioOsController < ApplicationController
 	
 	def show_error(msg)
 		flash[:error] = msg 
-		redirect_to(action: 'index', project_id: @project.id)
+		redirect_to(:action => 'index', :project_id => @project.id)
 	end
 end

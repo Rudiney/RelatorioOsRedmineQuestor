@@ -14,7 +14,7 @@ class RelatorioOsControllerTest < ActionController::TestCase
 =end	
 	setup do
 		@p = Project.find_by_id(1)
-		@params = {project_id: @p.id}
+		@params = {:project_id => @p.id}
 	end
 	
 	test "00 - Deve ter o index" do
@@ -26,32 +26,32 @@ class RelatorioOsControllerTest < ActionController::TestCase
 	
 	test "02 - carrega o projeto" do
 		assert(@p, "o projeto tem que existir")
-		post(:show, {project_id: @p.id})
+		post(:show, {:project_id => @p.id})
 		assert_not_nil(assigns(:project), 'nao acho o projeto')
 		assert_equal(@p, assigns(:project), 'acho o projeto errado')
 	end
 	
 	test "03 - carrega a tarefa" do
-		post(:show, @params.merge({issue: {id: 1}}))
+		post(:show, @params.merge({:issue => {:id => 1}}))
 		
 		assert_response(:success)
 		assert_equal(Issue.find(1), assigns(:issue), "tarefa 1")
 	end
 	
 	test "04 - só do projeto escolhido" do
-		post(:show, @params.merge({issue: {id: 13}}))
+		post(:show, @params.merge({:issue => {:id => 13}}))
 		error()
 	end
 	
 	test "05 - tarefa nao existe" do
-		post(:show, @params.merge({issue: {id: 800}}))
+		post(:show, @params.merge({:issue => {:id => 800}}))
 		error()
 	end
 	
 	private
 	
 	def error
-		assert_redirected_to(:action => :index, project_id: @p.id)
+		assert_redirected_to(:action => :index, :project_id => @p.id)
 		assert_not_nil(flash[:error])
 	end
 end
