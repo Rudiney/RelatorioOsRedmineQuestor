@@ -4,7 +4,7 @@
 	<legend>Filtros</legend>
 	<%= form_for(:issue, :url => {:controller => 'relatorio_os', :action => 'show', :project_id => @project.id}) do |f| %>
 	
-		Imprimir o relatório da tarefa <%= f.text_field(:id, :size => 3) %>
+		Imprimir o relatório da tarefa <%= f.text_field(:id, :size => 3, :value => (params[:issue_id] || '')) %>
 		<br>
 		Filtrar histórico entre os dias: 
 			<%= text_field_tag :history_start_date, format_date(Date.today), :name => 'history[start_date]', :size => 10 %><%= calendar_for('history_start_date') %>
