@@ -1,20 +1,21 @@
 <% IssueRelation %>
 <% relation_type ||= nil %>
-<div class="issue">
-	<h2> <%= relation_type %> <%= issue.tracker %> #<%= issue.id %> - <%= issue.subject %></h2>
-	<table width='100%'>
+<% children ||= nil %>
+
+<fieldset class="issue">
+	<legend><h2> <%= relation_type %> <%= issue.tracker %> #<%= issue.id %> - <%= issue.subject %></h2></legend>
+	<table class='issue_header' width='100%'>
 		<tr>
-			<td class='titulo'>Inicio:</td><td width='50%'><%= format_date(issue.start_date) %></td>
-			<td class='titulo'>Situação:</td><td width='50%'><%= issue.status %></td>
-		</tr>
-		<tr>
-			<td class='titulo'>Conclusão:</td><td><%= format_date(issue.due_date) %></td>
-			<td class='titulo'>Responsável:</td><td><%= issue.assigned_to %></td>
+			<td><b>Inicio:      </b><%= format_date(issue.start_date) %></td>
+			<td><b>Situação:    </b><%= issue.status %>                 </td>
+			<td><b>Conclusão:   </b><%= format_date(issue.due_date) %> ( <%= issue.done_ratio %>% ) </td>
+			<td><b>Responsável: </b><%= issue.assigned_to %>            </td>
 		</tr>
 	<% unless issue.description.blank? %>	
 		<tr>
-			<td class='titulo'>Descrição:</td>
-			<td colspan='3'><%= textilizable(issue, :description) %></td>
+			<td colspan='4'>
+				<b>Descrição:</b><%= textilizable(issue, :description) %>
+			</td>
 		</tr>
 	<% end %>
 	</table>
@@ -28,5 +29,15 @@
 	<%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
 	<%= render(:partial => 'issue_checklist',      :locals => { :issue => issue }) if issue.respond_to?(:checklist) && issue.checklist.any? %>
 	<%= render(:partial => 'issue_history',        :locals => { :issue => issue, :journals => journals }) if journals.any? %>
-	<%= render(:partial => 'issue_related_issues', :locals => { :issue => issue }) unless relation_type || issue.relations.empty? %>
-</div>
+	<%# render(:partial => 'issue_related_issues', :locals => { :issue => issue }) unless relation_type || issue.relations.empty? %>
+	
+	<% if children && issue.children.any? %>
+	
+		<% issue.children.each do |child| %>
+			<%= render(:partial => 'issue', :locals => {:issue => child}) %>
+		<% end %>
+		
+		<%= ("</fieldset>"*issue.children.size).html_safe %>
+		
+	<% end %>
+<%# nao fecha o fieldset se propósito %>

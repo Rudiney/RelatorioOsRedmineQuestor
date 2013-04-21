@@ -6,7 +6,14 @@
 	<body>
 			<%= render('header') %>
 			<div class="issues">
-				<%= render(:partial => 'issue', :locals => {:issue => @issue}) %>
+				
+				<% @issue.ancestors.each do |issue| %>
+					<%= render(:partial => 'issue', :locals => {:issue => issue}) %>
+				<% end %>
+				
+				<%= render(:partial => 'issue', :locals => {:issue => @issue, :children => true}) %>
+				
+				<%= ("</fieldset>"*(@issue.ancestors.size+8)).html_safe %>
 			</div>
 			
 			<%= render('assinatura') %>
