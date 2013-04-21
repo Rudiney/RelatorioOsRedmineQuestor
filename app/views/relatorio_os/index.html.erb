@@ -9,7 +9,7 @@
 		Filtrar histórico entre os dias: 
 			<%= text_field_tag :history_start_date, format_date(Date.today), :name => 'history[start_date]', :size => 10 %><%= calendar_for('history_start_date') %>
 		e: 
-			<%= text_field_tag :history_end_date, format_date(Date.today), :name => 'history[end_date]', :size => 10 %><%= calendar_for('history_end_date') %>
+			<%= text_field_tag :history_end_date, format_date(Date.today+1.day), :name => 'history[end_date]', :size => 10 %><%= calendar_for('history_end_date') %>
 		<br>
 		<%= f.submit('Imprimir') %>
 		
