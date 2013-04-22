@@ -21,8 +21,13 @@
 	
 	
 	<% 
-	 	time_entries = issue.time_entries.where(:spent_on => (params[:history][:start_date]..params[:history][:end_date]))
-		journals = issue.journals.where(:private_notes => false, :created_on => (params[:history][:start_date]..params[:history][:end_date]))
+	 	time_entries = issue.time_entries.where(
+										:spent_on => (params[:history][:start_date]..params[:history][:end_date]),
+										:user_id => User.current)
+
+		journals = issue.journals.where(
+								:private_notes => false, :created_on => (params[:history][:start_date]..params[:history][:end_date]),
+								:user_id => User.current)
 	 %>
 	
 	<%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
