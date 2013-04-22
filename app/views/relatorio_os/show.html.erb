@@ -7,13 +7,11 @@
 			<%= render('header') %>
 			<div class="issues">
 				
-				<% @issue.ancestors.each do |issue| %>
-					<%= render(:partial => 'issue', :locals => {:issue => issue}) %>
-				<% end %>
+				<%= render(:partial => 'issue', :collection => @issue.ancestors, :as => :issue) %>
 				
 				<%= render(:partial => 'issue', :locals => {:issue => @issue, :children => true}) %>
 				
-				<%= ("</fieldset>"*(@issue.ancestors.size+8)).html_safe %>
+				<%= ("</fieldset>"*(@issue.ancestors.size+1)).html_safe %>
 			</div>
 			
 			<%= render('assinatura') %>

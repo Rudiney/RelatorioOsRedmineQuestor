@@ -1,8 +1,7 @@
 <% IssueRelation %>
 <% relation_type ||= nil %>
 <% children ||= nil %>
-
-<fieldset class="issue">
+<fieldset class="issue" issue="<%= issue.id %>">
 	<legend><h2> <%= relation_type %> <%= issue.tracker %> #<%= issue.id %> - <%= issue.subject %></h2></legend>
 	<table class='issue_header' width='100%'>
 		<tr>
@@ -34,10 +33,9 @@
 	<% if children && issue.children.any? %>
 	
 		<% issue.children.each do |child| %>
-			<%= render(:partial => 'issue', :locals => {:issue => child}) %>
+			<%= render(:partial => 'issue', :locals => {:issue => child, :children => true}) %>
+			</fieldset>
 		<% end %>
-		
-		<%= ("</fieldset>"*issue.children.size).html_safe %>
-		
 	<% end %>
-<%# nao fecha o fieldset se propósito %>
+	
+<%# nao fecha o fieldset de propósito %>
