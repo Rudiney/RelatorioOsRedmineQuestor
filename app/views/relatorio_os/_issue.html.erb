@@ -21,16 +21,15 @@
 	
 	
 	<% 
-	 	time_entries = issue.time_entries.where(
-										:spent_on => (params[:history][:start_date]..params[:history][:end_date]),
-										:user_id => User.current)
+	 	time_entries = issue.time_entries.where(:spent_on => (params[:history][:start_date]..params[:history][:end_date]))
+		journals = issue.journals.where(:private_notes => false, :created_on => (params[:history][:start_date]..params[:history][:end_date]))
 
-		journals = issue.journals.where(
-								:private_notes => false, :created_on => (params[:history][:start_date]..params[:history][:end_date]),
-								:user_id => User.current)
+		if params[:issue][:only_my_records] 
+			time_entries = time_entries.where(:user_id => User.current)
+			journals = journals.where(:user_id => User.current)
+		end
 	 %>
-	
-	<%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
+	 <%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
 	<%= render(:partial => 'issue_checklist',      :locals => { :issue => issue }) if issue.respond_to?(:checklist) && issue.checklist.any? %>
 	<%= render(:partial => 'issue_history',        :locals => { :issue => issue, :journals => journals }) if journals.any? %>
 	<%# render(:partial => 'issue_related_issues', :locals => { :issue => issue }) unless relation_type || issue.relations.empty? %>

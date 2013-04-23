@@ -11,6 +11,9 @@
 		e: 
 			<%= text_field_tag :history_end_date, format_date(Date.today+1.day), :name => 'history[end_date]', :size => 10 %><%= calendar_for('history_end_date') %>
 		<br>
+		<%= f.label(:only_my_records, "Trazer somente meus registros?") %>
+		<%= f.check_box(:only_my_records, {:checked => true}, true, false) %>
+		<br>
 		<%= f.submit('Imprimir') %>
 		
 	<% end %>
