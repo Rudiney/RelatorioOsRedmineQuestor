@@ -48,6 +48,20 @@ class RelatorioOsControllerTest < ActionController::TestCase
 		error()
 	end
 	
+	test "06 - convertendo as datas" do
+		post(:show, @params.merge({:issue => {:id => 1},
+			:history => {:start_date => '2013-04-25', :start_date => '2013-04-26'}}))
+		
+		assert_equal(Date.new(2013,4,25), assigns(:start_date))
+		assert_equal(Date.new(2013,4,26), assigns(:end_date))
+		
+		post(:show, @params.merge({:issue => {:id => 1},
+			:history => {:start_date => '10/07/2012', :start_date => '11/08/2012'}}))
+		
+		assert_equal(Date.new(2012,7,10), assigns(:start_date))
+		assert_equal(Date.new(2012,8,11), assigns(:end_date))
+	end
+	
 	private
 	
 	def error

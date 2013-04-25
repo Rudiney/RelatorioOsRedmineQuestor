@@ -22,8 +22,12 @@ class RelatorioOsController < ApplicationController
 		show_error("Tarefa não encontrada!") and return unless @issue
 		
 		params[:history] ||= {}
-		params[:history][:start_date] = Date.today.to_s if params[:history][:start_date].blank?
-		params[:history][:end_date] = Date.today.to_s if params[:history][:end_date].blank?
+		
+		@start_date = params[:history][:start_date].blank? ? Date.today.to_s    : params[:history][:start_date]
+		@end_date   = params[:history][:end_date].blank?   ? Date.tomorrow.to_s : params[:history][:end_date]
+		
+		@start_date = Date.parse(@start_date)
+		@end_date   = Date.parse(@end_date)
 		
 		render :layout => false
 	end
