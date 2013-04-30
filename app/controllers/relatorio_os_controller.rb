@@ -26,8 +26,8 @@ class RelatorioOsController < ApplicationController
 		@start_date = params[:history][:start_date].blank? ? Date.today.to_s    : params[:history][:start_date]
 		@end_date   = params[:history][:end_date].blank?   ? Date.tomorrow.to_s : params[:history][:end_date]
 		
-		@start_date = Date.parse(@start_date)
-		@end_date   = Date.parse(@end_date)
+		@start_date = Date.parse(@start_date).at_midnight
+		@end_date   = (Date.parse(@end_date)+1.day).at_midnight
 		
 		@fieldset_abertos = 0
 		
