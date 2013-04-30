@@ -29,6 +29,8 @@ class RelatorioOsController < ApplicationController
 		@start_date = Date.parse(@start_date)
 		@end_date   = Date.parse(@end_date)
 		
+		@fieldset_abertos = 0
+		
 		render :layout => false
 	end
 	

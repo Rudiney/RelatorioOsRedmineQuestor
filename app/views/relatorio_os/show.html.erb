@@ -11,7 +11,8 @@
 				
 				<%= render(:partial => 'issue', :locals => {:issue => @issue, :children => true}) %>
 				
-				<%= ("</fieldset>"*(@issue.ancestors.size+1)).html_safe %>
+				<%= ("</fieldset>"*@fieldset_abertos).html_safe %>
+				<% @fieldset_abertos = 0 %>
 			</div>
 			
 			<%= render('assinatura') %>

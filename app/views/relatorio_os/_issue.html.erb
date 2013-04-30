@@ -1,6 +1,20 @@
-<% IssueRelation %>
-<% relation_type ||= nil %>
-<% children ||= nil %>
+<% 
+IssueRelation
+relation_type ||= nil
+children ||= nil
+
+time_entries = issue.time_entries.where(:spent_on => (@start_date..@end_date))
+journals = issue.journals.where(:private_notes => false, :created_on => (@start_date..@end_date))
+
+if params[:issue][:only_my_records] 
+	time_entries = time_entries.where(:user_id => User.current)
+	journals = journals.where(:user_id => User.current)
+end
+%>
+
+<% if time_entries.any? || journals.any? %>
+
+<% @fieldset_abertos += 1  %>
 <fieldset class="issue" issue="<%= issue.id %>">
 	<legend><h2> <%= relation_type %> <%= issue.tracker %> #<%= issue.id %> - <%= issue.subject %></h2></legend>
 	<table class='issue_header' width='100%'>
@@ -20,26 +34,18 @@
 	</table>
 	
 	
-	<% 
-	 	time_entries = issue.time_entries.where(:spent_on => (@start_date..@end_date))
-		journals = issue.journals.where(:private_notes => false, :created_on => (@start_date..@end_date))
-
-		if params[:issue][:only_my_records] 
-			time_entries = time_entries.where(:user_id => User.current)
-			journals = journals.where(:user_id => User.current)
-		end
-	 %>
-	 <%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
+	<%= render(:partial => 'issue_time_entries',   :locals => { :issue => issue, :time_entries => time_entries }) if time_entries.any? %>
 	<%= render(:partial => 'issue_checklist',      :locals => { :issue => issue }) if issue.respond_to?(:checklist) && issue.checklist.any? %>
 	<%= render(:partial => 'issue_history',        :locals => { :issue => issue, :journals => journals }) if journals.any? %>
 	<%# render(:partial => 'issue_related_issues', :locals => { :issue => issue }) unless relation_type || issue.relations.empty? %>
 	
 	<% if children && issue.children.any? %>
-	
 		<% issue.children.each do |child| %>
 			<%= render(:partial => 'issue', :locals => {:issue => child, :children => true}) %>
-			</fieldset>
+			<%= ("</fieldset>"*@fieldset_abertos).html_safe %>
+			<% @fieldset_abertos = 0 %>
 		<% end %>
 	<% end %>
 	
+<% end %>	
 <%# nao fecha o fieldset de propósito %>
