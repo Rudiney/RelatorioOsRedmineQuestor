@@ -1,4 +1,16 @@
 <fieldset>
 	<legend><h3>Histórico</h3></legend>
-	<%= render :partial => 'issues/history', :locals => { :issue => issue, :journals => journals } %>
+	<% journals.each do |journal| %>
+	<b>Atualizado por <%= link_to(journal.user, journal.user.name) %> em <%= format_time(journal.created_on) %>:</b>
+	
+  <% if journal.details.any? %>
+  <ul class="details">
+    <% details_to_strings(journal.details).each do |string| %>
+     <li><%= string %></li>
+    <% end %>
+  </ul>
+  <% end %>
+	
+	<%= textilizable(journal, :notes) unless journal.notes.blank? %>
+	<% end %>
 </fieldset>
